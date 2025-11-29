@@ -11,14 +11,11 @@ def perform_regression(input_data: InputData, mode: str = "manual"):
     # Model training based on mode
     match mode:
         case "manual":
-            model, learned_slope, learned_intercept = train_manual(input_data.X_train, input_data.y_train, n_iterations=1000, learning_rate=0.01)
+            learned_slope, learned_intercept, predictions = train_manual(input_data, n_iterations=1000, learning_rate=0.01)
         case "sklearn":
-            model, learned_slope, learned_intercept = train_sklearn(input_data.X_train, input_data.y_train)
+            learned_slope, learned_intercept, predictions = train_sklearn(input_data)
         case _:
             raise ValueError(f"Unknown mode: {mode}")
-
-    # Predictions for test data
-    predictions = model.predict(input_data.X_test)
 
     # End performance measurement
     end_time = time.perf_counter()
