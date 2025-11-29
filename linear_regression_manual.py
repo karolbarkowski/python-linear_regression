@@ -24,12 +24,8 @@ print(f"Testing set size: {len(X_test)} samples")
 print()
 
 # TRAINING THE MODEL
-model, learned_slope, learned_intercept = train_manual(
-    X_train,
-    y_train,
-    n_iterations=1000,
-    learning_rate=0.01
-)
+model, learned_slope, learned_intercept = train_manual(X_train,y_train,n_iterations=1000,learning_rate=0.01)
+
 print(f"Learned equation: y = {learned_slope:.2f}x + {learned_intercept:.2f}")
 print()
 
@@ -40,4 +36,4 @@ y_test_pred = model.predict(X_test)
 test_mse, test_r2 = evaluate_model(y_test, y_test_pred)
 
 # VISUALIZATIONS
-visualize(X, Y)
+visualize(X, Y, X_train, y_train, X_test, y_test, y_test_pred, learned_slope, learned_intercept, process_config)

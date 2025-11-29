@@ -36,4 +36,4 @@ y_test_pred = model.predict(X_test)
 test_mse, test_r2 = evaluate_model(y_test, y_test_pred)
 
 # VISUALIZATIONS
-visualize(X, Y)
+visualize(X, Y, X_train, y_train, X_test, y_test, y_test_pred, learned_slope, learned_intercept, process_config)
