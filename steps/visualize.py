@@ -1,10 +1,8 @@
 from matplotlib import pyplot as plt
 import numpy as np
-from models.regression_output import RegressionOutput
-from models.data_params import DataGenerationParams
+from models import DataGenerationParams, RegressionOutput, InputData
 
-
-def visualize(manual_output: RegressionOutput, sklearn_output: RegressionOutput, process_config: DataGenerationParams):
+def visualize(manual_output: RegressionOutput, sklearn_output: RegressionOutput, input_data: InputData, process_config: DataGenerationParams):
     # Create figure with 2 rows and 2 columns
     fig, axes = plt.subplots(2, 2, figsize=(16, 12))
 
@@ -18,12 +16,12 @@ def visualize(manual_output: RegressionOutput, sklearn_output: RegressionOutput,
 
     for output, method_name, row in outputs:
         # Extract data from output
-        X = output.X
-        X_train = output.X_train
-        y_train = output.y_train
-        X_test = output.X_test
-        y_test = output.y_test
-        y_test_pred = output.y_test_pred
+        X = np.concatenate([input_data.X_train, input_data.X_test])
+        X_train = input_data.X_train
+        y_train = input_data.y_train
+        X_test = input_data.X_test
+        y_test = input_data.y_test
+        y_test_pred = output.predictions
         learned_slope = output.learned_slope
         learned_intercept = output.learned_intercept
 

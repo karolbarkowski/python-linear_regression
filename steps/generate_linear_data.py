@@ -1,8 +1,8 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from models.data_params import DataGenerationParams
+from models.input_data import InputData
 
-def generate_linear_data(params: DataGenerationParams):
+def generate_data(params: DataGenerationParams):
     np.random.seed(params.random_seed)
 
     # Generate x values
@@ -15,4 +15,11 @@ def generate_linear_data(params: DataGenerationParams):
     # Reshape X from 1D array (100,) to 2D array (100, 1) as scikit-learn requires 2D arrays 
     X = X.reshape(-1, 1)
 
-    return X, y
+    split_index = int(params.training_fraction * len(X))
+
+    return InputData(
+        X_train=X[:split_index],
+        y_train=y[:split_index],
+        X_test=X[split_index:],
+        y_test=y[split_index:]
+    )

@@ -1,7 +1,7 @@
 from enum import Enum
-from models.data_params import DataGenerationParams
+from models import DataGenerationParams
 from regression_steps import perform_regression
-from steps.visualize import visualize
+from steps import generate_data, visualize
 
 class Mode(Enum):
     SKLEARN = "sklearn"
@@ -16,8 +16,22 @@ process_config = DataGenerationParams(
     training_fraction=0.8
 )
 
-manual_output = perform_regression(process_config, mode=Mode.MANUAL.value)
-sklearn_output = perform_regression(process_config, mode=Mode.SKLEARN.value)
+# Generate some random training/test data
+input_data = generate_data(process_config)
 
-# VISUALIZATIONS
-visualize(manual_output, sklearn_output, process_config)
+# TRAINING
+manual_output = perform_regression(input_data, mode=Mode.MANUAL.value)
+sklearn_output = perform_regression(input_data, mode=Mode.SKLEARN.value)
+
+print("MANUAL REGRESSION RESULTS")
+print(f"Learned equation: y = {manual_output.learned_slope:.2f}x + {manual_output.learned_intercept:.2f}")
+print(f"Performed in: {manual_output.ticks_taken}.")
+print()
+
+print("SKLEARN REGRESSION RESULTS")
+print(f"Learned equation: y = {sklearn_output.learned_slope:.2f}x + {sklearn_output.learned_intercept:.2f}")
+print(f"Performed in: {sklearn_output.ticks_taken}.")
+print()
+
+# VISUALIZATION
+visualize(manual_output, sklearn_output, input_data, process_config)
