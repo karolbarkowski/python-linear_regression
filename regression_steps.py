@@ -1,5 +1,6 @@
 from models import DataGenerationParams
-from steps import generate_linear_data, split_data, train_manual, train_sklearn, evaluate_model, visualize
+from models.regression_output import RegressionOutput
+from steps import generate_linear_data, split_data, train_manual, train_sklearn, visualize
 
 
 def perform_regression(process_config: DataGenerationParams, mode: str = "manual"):
@@ -31,8 +32,20 @@ def perform_regression(process_config: DataGenerationParams, mode: str = "manual
     # PREDICTIONS
     y_test_pred = model.predict(X_test)
 
-    # MODEL EVALUATION
-    test_mse, test_r2 = evaluate_model(y_test, y_test_pred)
+    output = RegressionOutput(
+        mode=mode,
+        X=X,
+        X_train=X_train,
+        y_train=y_train,
+        X_test=X_test,
+        y_test=y_test,
+        y_test_pred=y_test_pred,
+        learned_slope=float(learned_slope),
+        learned_intercept=float(learned_intercept)
+    )
 
-    # VISUALIZATIONS
-    visualize(X, Y, X_train, y_train, X_test, y_test, y_test_pred, learned_slope, learned_intercept, process_config)
+    return output  
+    
+
+
+  

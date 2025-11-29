@@ -1,6 +1,7 @@
 from enum import Enum
 from models.data_params import DataGenerationParams
 from regression_steps import perform_regression
+from steps.visualize import visualize
 
 class Mode(Enum):
     SKLEARN = "sklearn"
@@ -15,5 +16,8 @@ process_config = DataGenerationParams(
     training_fraction=0.8
 )
 
-perform_regression(process_config, mode=Mode.MANUAL.value)
-perform_regression(process_config, mode=Mode.SKLEARN.value)
+manual_output = perform_regression(process_config, mode=Mode.MANUAL.value)
+sklearn_output = perform_regression(process_config, mode=Mode.SKLEARN.value)
+
+# VISUALIZATIONS
+visualize(manual_output, sklearn_output, process_config)
