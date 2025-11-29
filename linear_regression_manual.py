@@ -1,5 +1,5 @@
 from models import DataGenerationParams
-from steps import generate_linear_data, split_data, train_sklearn, evaluate_model, visualize
+from steps import generate_linear_data, split_data, train_manual, evaluate_model, visualize
 
 process_config = DataGenerationParams(
     n_samples=100,
@@ -24,8 +24,12 @@ print(f"Testing set size: {len(X_test)} samples")
 print()
 
 # TRAINING THE MODEL
-model, learned_slope, learned_intercept = train_sklearn(X_train, y_train)
-
+model, learned_slope, learned_intercept = train_manual(
+    X_train,
+    y_train,
+    n_iterations=1000,
+    learning_rate=0.01
+)
 print(f"Learned equation: y = {learned_slope:.2f}x + {learned_intercept:.2f}")
 print()
 
