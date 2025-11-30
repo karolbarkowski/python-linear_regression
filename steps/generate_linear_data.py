@@ -1,8 +1,25 @@
+"""
+Linear data generation for regression training
+"""
 import numpy as np
 from models.data_params import DataGenerationParams
 from models.input_data import InputData
 
-def generate_data(params: DataGenerationParams):
+
+def generate_data(params: DataGenerationParams) -> InputData:
+    """
+    Generate synthetic linear data with Gaussian noise.
+
+    Creates a dataset following y = slope * x + intercept + noise,
+    then splits it into training and test sets.
+
+    Args:
+        params: Configuration for data generation including slope, intercept,
+                noise level, sample count, and train/test split ratio
+
+    Returns:
+        InputData containing X_train, y_train, X_test, y_test arrays
+    """
     np.random.seed(params.random_seed)
 
     # Generate x values

@@ -1,8 +1,30 @@
+"""
+Visualization of regression results
+"""
 from matplotlib import pyplot as plt
 import numpy as np
 from models import DataGenerationParams, RegressionOutput, InputData
 
-def visualize(manual_output: RegressionOutput, sklearn_output: RegressionOutput, input_data: InputData, process_config: DataGenerationParams):
+
+def visualize(
+    manual_output: RegressionOutput,
+    sklearn_output: RegressionOutput,
+    input_data: InputData,
+    data_config: DataGenerationParams
+) -> None:
+    """
+    Visualize and compare manual and sklearn regression results.
+
+    Creates a 2x2 grid of plots comparing both training methods:
+    - Left column: Learned lines vs true relationship
+    - Right column: Prediction errors on test data
+
+    Args:
+        manual_output: Results from manual gradient descent training
+        sklearn_output: Results from sklearn training
+        input_data: Original training and test data
+        data_config: Original data generation parameters (for true line plotting)
+    """
     # Create figure with 2 rows and 2 columns
     fig, axes = plt.subplots(2, 2, figsize=(16, 12))
 
@@ -38,7 +60,7 @@ def visualize(manual_output: RegressionOutput, sklearn_output: RegressionOutput,
         ax1.plot(X_line, y_pred_line, color='red', linewidth=2.5, label='Learned line', zorder=5)
 
         # Plot the true line for comparison
-        y_true_line = process_config.slope * X_line.flatten() + process_config.intercept
+        y_true_line = data_config.slope * X_line.flatten() + data_config.intercept
         ax1.plot(X_line, y_true_line, color='orange', linewidth=2, linestyle='--',
                  label='True line', alpha=0.8, zorder=4)
 
